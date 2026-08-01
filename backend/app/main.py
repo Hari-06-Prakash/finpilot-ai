@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.auth import router as auth_router
 from app.api.user import router as user_router   # NEW
 from app.api.expense import router as expense_router
+from app.api.dashboard import router as dashboard_router
 
 app = FastAPI(
     title="AI Student Finance Manager API",
@@ -14,6 +15,7 @@ app = FastAPI(
 app.include_router(auth_router)
 app.include_router(user_router)   # NEW
 app.include_router(expense_router)
+app.include_router(dashboard_router)
 
 # CORS allows your React frontend (localhost:5173) to talk to FastAPI (localhost:8000)
 app.add_middleware(
