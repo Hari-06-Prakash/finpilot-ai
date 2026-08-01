@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.models.expense import Expense
 from app.models.category import Category
+from sqlalchemy import extract
 
 
 class DashboardRepository:
@@ -70,5 +71,44 @@ class DashboardRepository:
             )
             .group_by(Category.name)
             .order_by(func.sum(Expense.amount).desc())
+            .all()
+        )
+
+    @staticmethod
+    def get_monthly_trend(
+        db: Session,
+        user_id: int,
+    ):
+        return (
+            db.query(
+                extract("month", Expense.expense_date).label("month"),
+                func.sum(Expense.amount).label("amount"),
+            )
+            .filter(
+                Expense.user_id == user_id,
+            )
+            .group_by(
+                extract("month", Expense.expense_date),
+            )
+            .order_by(
+                extract("month", Expense.expense_date),
+            )
+            .all()
+        )
+
+    @staticmethod
+    def get_recent_expenses(
+        db: Session,
+        user_id: int,
+    ):
+        return (
+            db.query(Expense)
+            .filter(
+                Expense.user_id == user_id,
+            )
+            .order_by(
+                Expense.expense_date.desc()
+            )
+            .limit(5)
             .all()
         )

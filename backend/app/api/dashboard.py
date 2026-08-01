@@ -10,6 +10,8 @@ from typing import List
 from app.schemas.dashboard import (
     DashboardSummary,
     CategorySummary,
+    MonthlyTrend,
+    RecentExpense,
 )
 
 router = APIRouter(
@@ -40,6 +42,32 @@ def category_summary(
     current_user: User = Depends(get_current_user),
 ):
     return DashboardService.get_category_summary(
+        db=db,
+        user_id=current_user.id,
+    )
+
+@router.get(
+    "/monthly-trend",
+    response_model=List[MonthlyTrend],
+)
+def monthly_trend(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    return DashboardService.get_monthly_trend(
+        db=db,
+        user_id=current_user.id,
+    )
+
+@router.get(
+    "/recent-expenses",
+    response_model=List[RecentExpense],
+)
+def recent_expenses(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    return DashboardService.get_recent_expenses(
         db=db,
         user_id=current_user.id,
     )
