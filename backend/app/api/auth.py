@@ -5,6 +5,7 @@ from app.db.database import get_db
 from app.schemas.user import UserRegister, UserLogin, UserResponse
 from app.schemas.token import Token
 from app.services.auth_service import AuthService
+from fastapi.security import OAuth2PasswordRequestForm
 
 router = APIRouter(
     prefix="/auth",
@@ -35,14 +36,14 @@ def register(
     response_model=Token,
 )
 def login(
-    credentials: UserLogin,
+    form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
 ):
     try:
         token = AuthService.login(
             db,
-            credentials.email,
-            credentials.password,
+            form_data.username,   # username field contains the email
+            form_data.password,
         )
 
         return {
