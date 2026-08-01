@@ -6,24 +6,34 @@ type Props = {
   onDelete: (expense: any) => void;
 };
 
+const categoryMap: Record<number, string> = {
+  1: "🍔 Food",
+  2: "🚌 Transport",
+  3: "🛍 Shopping",
+};
+
 export default function ExpenseRow({
   expense,
   onEdit,
   onDelete,
 }: Props) {
   return (
-    <tr className="border-b hover:bg-gray-50">
+    <tr className="border-b hover:bg-slate-50 transition">
 
-      <td className="p-4">
+      <td className="p-4 font-medium">
         {expense.title}
       </td>
 
       <td className="p-4">
-        {expense.category_id}
+        <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+          {categoryMap[expense.category_id] ?? "Other"}
+        </span>
       </td>
 
       <td className="p-4">
-        {expense.payment_method}
+        <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">
+          {expense.payment_method}
+        </span>
       </td>
 
       <td className="p-4 font-semibold text-green-600">
@@ -35,7 +45,6 @@ export default function ExpenseRow({
       </td>
 
       <td className="p-4">
-
         <div className="flex justify-center gap-4">
 
           <button
@@ -53,7 +62,6 @@ export default function ExpenseRow({
           </button>
 
         </div>
-
       </td>
 
     </tr>
