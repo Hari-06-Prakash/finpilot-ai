@@ -47,7 +47,7 @@ export default function SummaryCards({ summary }: SummaryProps) {
         </h3>
 
         <p className="text-3xl font-bold mt-3 text-orange-600">
-          ₹ {summary.average_transaction}
+          ₹ {Number(summary.average_transaction).toFixed(2)}
         </p>
       </div>
 
