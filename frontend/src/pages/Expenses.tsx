@@ -209,11 +209,9 @@ export default function Expenses() {
                 totalPages={totalPages}
                 totalItems={filteredExpenses.length}
                 itemsPerPage={itemsPerPage}
+                label="expenses"
                 onPageChange={setCurrentPage}
-                onItemsPerPageChange={(value) => {
-                    setItemsPerPage(value);
-                    setCurrentPage(1);
-                }}
+                onItemsPerPageChange={setItemsPerPage}
             />
             </>
         )}

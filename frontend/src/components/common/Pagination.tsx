@@ -3,6 +3,7 @@ type Props = {
   totalPages: number;
   totalItems: number;
   itemsPerPage: number;
+  label?: string;
   onPageChange: (page: number) => void;
   onItemsPerPageChange: (value: number) => void;
 };
@@ -12,6 +13,7 @@ export default function Pagination({
   totalPages,
   totalItems,
   itemsPerPage,
+  label = "items",
   onPageChange,
   onItemsPerPageChange,
 }: Props) {
@@ -23,13 +25,14 @@ export default function Pagination({
   return (
     <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-6">
 
+      {/* Showing Text */}
       <div className="text-sm text-gray-600">
         Showing <strong>{start}</strong> - <strong>{end}</strong> of{" "}
-        <strong>{totalItems}</strong> expenses
+        <strong>{totalItems}</strong> {label}
       </div>
 
+      {/* Rows Per Page */}
       <div className="flex items-center gap-2">
-
         <span className="text-sm text-gray-600">
           Rows per page
         </span>
@@ -46,9 +49,9 @@ export default function Pagination({
           <option value={25}>25</option>
           <option value={50}>50</option>
         </select>
-
       </div>
 
+      {/* Pagination */}
       <div className="flex items-center gap-2">
 
         <button

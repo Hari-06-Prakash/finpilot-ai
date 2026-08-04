@@ -13,7 +13,11 @@ def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db),
 ):
+    print("TOKEN:", token)
+
     payload = verify_access_token(token)
+
+    print("PAYLOAD:", payload)
 
     if payload is None:
         raise HTTPException(
@@ -22,6 +26,8 @@ def get_current_user(
         )
 
     user = UserRepository.get_by_id(db, payload["user_id"])
+
+    print("USER:", user)
 
     if user is None:
         raise HTTPException(

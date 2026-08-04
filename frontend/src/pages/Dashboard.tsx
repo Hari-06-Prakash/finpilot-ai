@@ -41,7 +41,7 @@ export default function Dashboard() {
         Dashboard
       </h1>
 
-      <SummaryCards summary={summary} />
+      {summary && <SummaryCards summary={summary} />}
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-8">
 

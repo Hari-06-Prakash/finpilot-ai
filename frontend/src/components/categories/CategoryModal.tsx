@@ -1,0 +1,39 @@
+import CategoryForm from "./CategoryForm";
+
+type Props = {
+  open: boolean;
+  category?: any;
+  onClose: () => void;
+  onSubmit: (data: any) => void;
+};
+
+export default function CategoryModal({
+  open,
+  category,
+  onClose,
+  onSubmit,
+}: Props) {
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+      <div className="bg-white rounded-xl p-6 w-full max-w-md">
+
+        <h2 className="text-2xl font-bold mb-6">
+          {category
+            ? "Edit Category"
+            : "Add Category"}
+        </h2>
+
+        <CategoryForm
+          initialData={category}
+          onSubmit={onSubmit}
+          onCancel={onClose}
+        />
+
+      </div>
+
+    </div>
+  );
+}
