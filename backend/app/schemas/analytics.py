@@ -35,3 +35,17 @@ class PaymentMethodAnalysis(BaseModel):
     payment_methods: list[PaymentMethodItem]
     total_transactions: int
     most_used: str
+
+class WeeklySpendingItem(BaseModel):
+    day: str
+    amount: float
+
+
+class WeeklySpendingResponse(BaseModel):
+    weekly_spending: list[WeeklySpendingItem]
+    total_spending: float
+    average_spending: float
+    highest_day: str
+    highest_amount: float
+    lowest_day: str
+    lowest_amount: float

@@ -10,6 +10,7 @@ from app.schemas.analytics import (
     MonthlyComparison,
     FinancialInsights,
     PaymentMethodAnalysis,
+    WeeklySpendingResponse,
 )
 from app.services.analytics_service import AnalyticsService
 
@@ -67,6 +68,23 @@ def get_payment_method_analysis(
     """
 
     return AnalyticsService.get_payment_method_analysis(
+        db=db,
+        user_id=current_user.id,
+    )
+
+@router.get(
+    "/weekly-spending",
+    response_model=WeeklySpendingResponse,
+)
+def get_weekly_spending(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Returns weekly spending analytics.
+    """
+
+    return AnalyticsService.get_weekly_spending(
         db=db,
         user_id=current_user.id,
     )

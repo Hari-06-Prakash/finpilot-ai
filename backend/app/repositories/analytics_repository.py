@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from sqlalchemy import func, extract
 from sqlalchemy.orm import Session
@@ -301,4 +301,79 @@ class AnalyticsRepository:
             "payment_methods": payment_method_data,
             "total_transactions": total_transactions,
             "most_used": most_used,
+        }
+
+    @staticmethod
+    def get_weekly_spending(
+        db: Session,
+        user_id: int,
+    ):
+        """
+        Returns spending for the last 7 days.
+        """
+
+        today = datetime.now().date()
+        start_date = today - timedelta(days=6)
+
+        results = (
+            db.query(
+                func.date(Expense.expense_date).label("date"),
+                func.sum(Expense.amount).label("amount"),
+            )
+            .filter(
+                Expense.user_id == user_id,
+                Expense.expense_date >= start_date,
+            )
+            .group_by(func.date(Expense.expense_date))
+            .all()
+        )
+
+        spending_map = {
+            row.date: float(row.amount)
+            for row in results
+        }
+
+        weekly_data = []
+
+        total = 0
+
+        highest_day = ""
+        highest_amount = 0
+
+        lowest_day = ""
+        lowest_amount = None
+
+        for i in range(7):
+
+            current_date = start_date + timedelta(days=i)
+
+            amount = spending_map.get(current_date, 0)
+
+            total += amount
+
+            if amount > highest_amount:
+                highest_amount = amount
+                highest_day = current_date.strftime("%A")
+
+            if lowest_amount is None or amount < lowest_amount:
+                lowest_amount = amount
+                lowest_day = current_date.strftime("%A")
+
+            weekly_data.append(
+                {
+                    "day": current_date.strftime("%a"),
+                    "amount": round(amount, 2),
+                }
+            )
+
+        average = round(total / 7, 2)
+
+        return {
+            "weekly_spending": weekly_data,
+            "total_spending": round(total, 2),
+            "average_spending": average,
+            "highest_day": highest_day,
+            "highest_amount": round(highest_amount, 2),
+            "lowest_day": lowest_day,
+            "lowest_amount": round(lowest_amount, 2),
         }

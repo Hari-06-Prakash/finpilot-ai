@@ -14,3 +14,8 @@ export async function getPaymentMethodAnalysis() {
   const response = await api.get("/analytics/payment-method-analysis");
   return response.data;
 }
+
+export async function getWeeklySpending() {
+  const response = await api.get("/analytics/weekly-spending");
+  return response.data;
+}

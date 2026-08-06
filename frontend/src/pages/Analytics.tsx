@@ -6,6 +6,7 @@ import TopCategories from "../components/analytics/TopCategories";
 import MonthlyComparison from "../components/analytics/MonthlyComparison";
 import FinancialInsights from "../components/analytics/FinancialInsights";
 import PaymentMethodAnalysis from "../components/analytics/PaymentMethodAnalysis";
+import WeeklySpending from "../components/analytics/WeeklySpending";
 
 export default function Analytics() {
   return (
@@ -42,6 +43,12 @@ export default function Analytics() {
         <FinancialInsights />
 
         <PaymentMethodAnalysis />
+
+      </div>
+
+      <div className="mt-8">
+
+          <WeeklySpending />
 
       </div>
 

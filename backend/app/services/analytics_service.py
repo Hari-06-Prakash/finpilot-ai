@@ -47,3 +47,13 @@ class AnalyticsService:
             db=db,
             user_id=user_id,
         )
+
+    @staticmethod
+    def get_weekly_spending(
+        db: Session,
+        user_id: int,
+    ):
+        return AnalyticsRepository.get_weekly_spending(
+            db=db,
+            user_id=user_id,
+        )
