@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import CategorySelect from "../common/CategorySelect";
 
 type Props = {
   expense?: any;
@@ -66,6 +67,8 @@ export default function ExpenseForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
 
+      {/* Title */}
+
       <input
         name="title"
         placeholder="Title"
@@ -74,6 +77,8 @@ export default function ExpenseForm({
         className="w-full border rounded-lg p-3"
         required
       />
+
+      {/* Amount */}
 
       <input
         name="amount"
@@ -85,6 +90,8 @@ export default function ExpenseForm({
         required
       />
 
+      {/* Description */}
+
       <input
         name="description"
         placeholder="Description"
@@ -93,6 +100,8 @@ export default function ExpenseForm({
         className="w-full border rounded-lg p-3"
       />
 
+      {/* Merchant */}
+
       <input
         name="merchant"
         placeholder="Merchant"
@@ -100,6 +109,8 @@ export default function ExpenseForm({
         onChange={handleChange}
         className="w-full border rounded-lg p-3"
       />
+
+      {/* Payment Method */}
 
       <select
         name="payment_method"
@@ -112,16 +123,19 @@ export default function ExpenseForm({
         <option value="Card">Card</option>
       </select>
 
-      <select
-        name="category_id"
+      {/* Category */}
+
+      <CategorySelect
         value={formData.category_id}
-        onChange={handleChange}
-        className="w-full border rounded-lg p-3"
-      >
-        <option value={1}>Food</option>
-        <option value={2}>Transport</option>
-        <option value={3}>Shopping</option>
-      </select>
+        onChange={(value) =>
+          setFormData({
+            ...formData,
+            category_id: value,
+          })
+        }
+      />
+
+      {/* Buttons */}
 
       <div className="flex justify-end gap-3">
 

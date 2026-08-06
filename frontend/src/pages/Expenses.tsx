@@ -11,6 +11,7 @@ import ExpenseFilters from "../components/expenses/ExpenseFilters";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import EmptyState from "../components/common/EmptyState";
 import Pagination from "../components/common/Pagination";
+import useCategories from "../hooks/useCategories";
 
 export default function Expenses() {
   const [expenses, setExpenses] = useState<any[]>([]);
@@ -25,17 +26,28 @@ export default function Expenses() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [dateFilter, setDateFilter] = useState("all");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+ 
 
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const { categories } = useCategories();
   useEffect(() => {
     loadExpenses();
   }, []);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, category, dateFilter, itemsPerPage]);
+  }, [
+    search,
+    category,
+    dateFilter,
+    fromDate,
+    toDate,
+    itemsPerPage,
+  ]);
 
   async function loadExpenses() {
     try {
@@ -132,6 +144,19 @@ export default function Expenses() {
             expenseDate.getFullYear() === today.getFullYear();
           break;
 
+        case "custom":
+          if (fromDate && toDate) {
+            const from = new Date(fromDate);
+            const to = new Date(toDate);
+
+            to.setHours(23, 59, 59, 999);
+
+            matchesDate =
+              expenseDate >= from &&
+              expenseDate <= to;
+          }
+          break;
+
         default:
           matchesDate = true;
       }
@@ -142,7 +167,14 @@ export default function Expenses() {
         matchesDate
       );
     });
-  }, [expenses, search, category, dateFilter]);
+  }, [
+  expenses,
+  search,
+  category,
+  dateFilter,
+  fromDate,
+  toDate,
+]);
 
   const totalPages = Math.ceil(
         filteredExpenses.length / itemsPerPage
@@ -175,12 +207,16 @@ export default function Expenses() {
         </div>
 
         <ExpenseFilters
-            search={search}
-            category={category}
-            dateFilter={dateFilter}
-            onSearchChange={setSearch}
-            onCategoryChange={setCategory}
-            onDateFilterChange={setDateFilter}
+          search={search}
+          category={category}
+          dateFilter={dateFilter}
+          fromDate={fromDate}
+          toDate={toDate}
+          onSearchChange={setSearch}
+          onCategoryChange={setCategory}
+          onDateFilterChange={setDateFilter}
+          onFromDateChange={setFromDate}
+          onToDateChange={setToDate}
         />
 
         {loading ? (
@@ -194,13 +230,14 @@ export default function Expenses() {
             <>
             <ExpenseTable
                 expenses={paginatedExpenses}
+                categories={categories}
                 onEdit={(expense) => {
-                setSelectedExpense(expense);
-                setOpenModal(true);
+                    setSelectedExpense(expense);
+                    setOpenModal(true);
                 }}
                 onDelete={(expense) => {
-                setSelectedExpense(expense);
-                setOpenDeleteModal(true);
+                    setSelectedExpense(expense);
+                    setOpenDeleteModal(true);
                 }}
             />
 

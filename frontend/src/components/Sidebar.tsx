@@ -3,6 +3,7 @@ import {
   Wallet,
   FolderKanban,
   BarChart3,
+  PiggyBank,
   User,
   LogOut,
 } from "lucide-react";
@@ -82,6 +83,16 @@ export default function Sidebar() {
         >
           <BarChart3 size={20} />
           Analytics
+        </NavLink>
+
+        <NavLink
+            to="/budget"
+            className={({ isActive }) =>
+              `${menuItem} ${isActive ? activeMenu : ""}`
+            }
+          >
+            <PiggyBank size={20} />
+            Budget
         </NavLink>
 
         <NavLink

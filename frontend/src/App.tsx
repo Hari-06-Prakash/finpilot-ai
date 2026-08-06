@@ -11,6 +11,7 @@ import Expenses from "./pages/Expenses";
 import Categories from "./pages/Categories";
 import Analytics from "./pages/Analytics";
 import Profile from "./pages/Profile";
+import Budget from "./pages/Budget";
 
 function App() {
   return (
@@ -38,6 +39,8 @@ function App() {
         <Route path="/analytics" element={<Analytics />} />
 
         <Route path="/profile" element={<Profile />} />
+
+        <Route path="/budget" element={<Budget />} />
       </Route>
 
     </Routes>

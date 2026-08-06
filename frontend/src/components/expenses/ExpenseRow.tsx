@@ -1,22 +1,25 @@
 import { Pencil, Trash2 } from "lucide-react";
+import CategoryBadge from "../common/CategoryBadge";
+import type { Category } from "../../types/category";
 
 type Props = {
   expense: any;
+  categories: Category[];
   onEdit: (expense: any) => void;
   onDelete: (expense: any) => void;
 };
 
-const categoryMap: Record<number, string> = {
-  1: "🍔 Food",
-  2: "🚌 Transport",
-  3: "🛍 Shopping",
-};
-
 export default function ExpenseRow({
   expense,
+  categories,
   onEdit,
   onDelete,
 }: Props) {
+
+  const category = categories.find(
+    (cat) => cat.id === expense.category_id
+  );
+
   return (
     <tr className="border-b hover:bg-slate-50 transition">
 
@@ -25,9 +28,7 @@ export default function ExpenseRow({
       </td>
 
       <td className="p-4">
-        <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
-          {categoryMap[expense.category_id] ?? "Other"}
-        </span>
+        <CategoryBadge category={category} />
       </td>
 
       <td className="p-4">
