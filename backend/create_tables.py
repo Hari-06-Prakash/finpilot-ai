@@ -5,6 +5,7 @@ import app.models.user
 import app.models.category
 import app.models.expense
 import app.models.budget
+import app.models.income
 
 print("Creating database tables...")
 

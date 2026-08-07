@@ -96,6 +96,16 @@ export default function Sidebar() {
         </NavLink>
 
         <NavLink
+          to="/income"
+          className={({ isActive }) =>
+            `${menuItem} ${isActive ? activeMenu : ""}`
+          }
+        >
+          <Wallet size={20} />
+          Income
+        </NavLink>
+
+        <NavLink
           to="/profile"
           className={({ isActive }) =>
             `${menuItem} ${isActive ? activeMenu : ""}`

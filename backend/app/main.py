@@ -8,6 +8,7 @@ from app.api.dashboard import router as dashboard_router
 from app.api.category import router as category_router
 from app.api.analytics import router as analytics_router
 from app.api.budget import router as budget_router
+from app.api.income import router as income_router
 
 app = FastAPI(
     title="AI Student Finance Manager API",
@@ -24,6 +25,7 @@ app.include_router(dashboard_router)
 app.include_router(category_router)
 app.include_router(analytics_router)
 app.include_router(budget_router)
+app.include_router(income_router)
 
 # -----------------------------
 # CORS
